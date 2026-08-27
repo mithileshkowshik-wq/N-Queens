@@ -1,61 +1,50 @@
+n = int(input("Enter n: "))
+grid = [[False for _ in range(n)] for _ in range(n)]
+cols = set()
+diag1 = set()
+diag2 = set()
 
-def solveNQueens(n):
-    output = []
-    for l in range(0, n):
-        #initializing grid
-        grid = [[0 for _ in range(n)] for _ in range(n)]
-        grid[0][l] = 'Q'
-        Qcount = 1 # keeps a count of the number of queens on board
-        eliminate(0, l, n, grid)
-        #perfect until here
 
-        for row in range(0, n):
-            for col in range(0, n):
-                if grid[row][col] == 0:
-                    grid[row][col] = 'Q'
-                    Qcount = Qcount + 1
-                    eliminate(row, col, n, grid)
-                    
-        if Qcount == n:
-            output.append(grid)
-    for o in range(0, n):
-            #initializing grid
-            grid = [[0 for _ in range(n)] for _ in range(n)]
-            grid[o][0] = 'Q'
-            Qcount = 1 # keeps a count of the number of queens on board
-            eliminate(o, 0, n, grid)
-            #perfect until here
-    
-            for row in range(0, n):
-                for col in range(0, n):
-                    if grid[row][col] == 0:
-                        grid[row][col] = 'Q'
-                        Qcount = Qcount + 1
-                        eliminate(row, col, n, grid)
-                        print(grid)
-                        
-            if Qcount == n:
-                output.append(grid)
-            
+def fill_row(r, n):
+    if r == n:
+        print_solution()
+        return
         
     
+    for c in range(0, n):
+        
+        if is_valid(r, c):
+
+            grid[r][c] = True
+            cols.add(c)
+            diag1.add(r + c)
+            diag2.add(r - c)
+
+            fill_row(r + 1, n)
+
+            grid[r][c] = False
+            cols.remove(c)
+            diag1.remove(r + c)
+            diag2.remove(r - c)
 
 
-def eliminate(i, j, n, grid):
-    for k in range(0, n):
-        if grid[i][k] != 'Q':
-            grid[i][k] = '.'
-    for m in range(0, n):
-        if grid[m][j] != 'Q':
-            grid[m][j] = '.'
-    #eliminate diagonals
-    for row in range(0, n):
-        for col in range(0, n):
-            if (row + col == i + j) and (grid[row][col] != 'Q'):
-                grid[row][col] = '.'
-    for row in range(0, n):
-        for col in range(0, n):
-            if (row - col == i - j) and (grid[row][col] != 'Q'):
-                grid[row][col] = '.'
+def is_valid(r, c):
+    if (c not in cols) and (r + c not in diag1) and (r - c not in diag2):
+        return True
+    else:
+        return False
+    
 
-oof = solveNQueens(4)
+def print_solution():
+    for row in grid:
+        for cell in row:
+            if cell == True:
+                print("Q", end=" ")
+            else:
+                print(".", end=" ")
+        print()
+    print()
+
+fill_row(0, n)
+        
+
