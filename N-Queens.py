@@ -4,7 +4,6 @@ cols = set()
 diag1 = set()
 diag2 = set()
 
-
 def fill_row(r, n):
     if r == n:
         print_solution()
@@ -46,5 +45,6 @@ def print_solution():
     print()
 
 fill_row(0, n)
+
         
 
