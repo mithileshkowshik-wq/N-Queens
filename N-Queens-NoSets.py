@@ -30,10 +30,10 @@ def is_valid(r, c, n):
             if i == r and j == c:
                 continue
 
-            if r + c == i + j and grid[i][j]:
+            if r + c == i + j and grid[i][j] == True:
                 return False
 
-            if r - c == i - j and grid[i][j]:
+            if r - c == i - j and grid[i][j] == True:
                 return False
 
     return True
